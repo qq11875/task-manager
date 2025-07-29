@@ -11,6 +11,11 @@
     <h1>Task Manager</h1>
     <form id="task-form">
       <input type="text" id="task-input" placeholder="Add a new task..." />
+      <div id = "filters">
+       <button data-filter="all">All</button>
+       <button data-filter="active">Active</button>
+       <button data-filter="completed">Completed</button> 
+      </div>
       <button type="submit">Add</button>
     </form>
     <ul id="task-list"></ul>

@@ -14,7 +14,9 @@ form.addEventListener("submit", function (e) {
 
 function addTask(taskText, completed = false) {
   const li = document.createElement("li");
-  if (completed) li.classList.add("completed");
+  if (completed) {
+    li.classList.add("completed");
+  }
 
   const span = document.createElement("span");
   span.textContent = taskText;
@@ -25,7 +27,7 @@ function addTask(taskText, completed = false) {
 
   span.addEventListener("dblclick", () => {
     const input = document.createElement("input");
-    input.type = "text";
+    input.type = "text";    
     input.value = span.textContent;
     input.className = "edit-input";
 
@@ -56,9 +58,18 @@ function addTask(taskText, completed = false) {
     saveTasks();
   });
 
+  const completeBtn = document.createElement("button")
+  completeBtn.textContent = "Complete";
+  completeBtn.addEventListener("click", () => {
+    li.classList.toggle("completed");
+    saveTasks();
+  });
+
+
   const btns = document.createElement("div");
   btns.classList.add("task-buttons");
   btns.appendChild(delBtn);
+  btns.appendChild(completeBtn);
 
   li.appendChild(span);
   li.appendChild(btns);
@@ -80,5 +91,30 @@ function loadTasks() {
   const tasks = JSON.parse(localStorage.getItem("tasks")) || [];
   tasks.forEach((task) => addTask(task.text, task.completed));
 }
+
+const filters = document.querySelectorAll("#filters button");
+
+filters.forEach((btn) => {
+    btn.addEventListener("click", () => {
+        const filter = btn.dataset.filter;
+        const tasks = document.querySelectorAll("#task-list li");
+
+        tasks.forEach((task) => {
+            const isCompleted = task.classList.contains("completed");
+
+            if (filter === "all") {
+                task.style.display = "flex";
+            } else if (filter === "active") {
+                task.style.display = isCompleted ? "none" : "flex";
+            } else if (filter === "completed") {
+                task.style.display = isCompleted ? "flex" : "none";
+            }
+        });
+
+        filters.forEach((b) => b.classList.remove("active"));
+        btn.classList.add("active");
+    });
+});
+
 
 loadTasks(); // load tasks on page load
