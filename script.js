@@ -23,6 +23,32 @@ function addTask(taskText, completed = false) {
     saveTasks();
   });
 
+  span.addEventListener("dblclick", () => {
+    const input = document.createElement("input");
+    input.type = "text";
+    input.value = span.textContent;
+    input.className = "edit-input";
+
+    li.replaceChild(input, span);
+    input.focus();
+
+    function saveEdit() {
+        const newText = input.value.trim();
+        if (newText != "") {
+            span.textContent = newText;
+            li.replaceChild(span, input);
+            saveTasks();
+        }
+    }
+
+    input.addEventListener("blur", saveEdit);
+    input.addEventListener("keydown", (e) => {
+        if (e.key === "Enter") {
+            input.blur();
+        }
+    })
+  });
+
   const delBtn = document.createElement("button");
   delBtn.textContent = "Delete";
   delBtn.addEventListener("click", () => {

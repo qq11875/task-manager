@@ -59,3 +59,9 @@ li.completed span {
   margin-left: 10px;
   cursor: pointer;
 }
+
+.edit-input {
+    font-size: 16px;
+    padding: 5px;
+    width: 100%;
+}
